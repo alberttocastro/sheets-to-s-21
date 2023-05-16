@@ -46,7 +46,7 @@ async function openExcel () {
 
   let reports = file.Sheets['Relatórios']
 
-  let cell = reports['A1'].v
+  let cell = reports['A2'].w
 
   console.log({ cell })
 }
