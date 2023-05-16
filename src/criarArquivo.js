@@ -14,8 +14,31 @@ const MAP_INFO = {
   'elder': 49,
   'ministerialServant': 56,
   'pioneer': 63,
-  'serviceYear': 70
+  'serviceYear': 70,
+  'september': 1,
+  'october': 8,
+  'november': 15,
+  'december': 22,
+  'january': 29,
+  'february': 36,
+  'march': 43,
+  'april': 50,
+  'may': 57,
+  'june': 64,
+  'july': 71,
+  'august': 77,
+  'total': 83,
+  'average': 89
 }
+
+const MAP_REPORT_ORDER = [
+  'literature',
+  'videos',
+  'hours',
+  'returnVisits',
+  'bibleStudies',
+  'observation'
+]
 
 async function arquivoBaseComInformacoesDoPublicador (publicador) {
   let parsedInfo = parseInfo(publicador)
