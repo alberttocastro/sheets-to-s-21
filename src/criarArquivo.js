@@ -61,10 +61,15 @@ function parseInfo (publicador) {
   }
 }
 
+async function adicionarHorasAoArquivo(pdfDoc, publicador) {
+  return pdfDoc
+}
+
 export default async function criarArquivo(publicador) {
   console.log({ publicador })
 
   let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
+  pdfDoc = await adicionarHorasAoArquivo(pdfDoc, publicador)
 
   let exists = fs.existsSync(`./${process.env.OUTPUTPATH}`)
 
