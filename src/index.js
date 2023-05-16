@@ -2,6 +2,7 @@ import { PDFDocument } from 'pdf-lib'
 import fs from 'fs'
 import * as XLSX from 'xlsx/xlsx.mjs'
 import * as dotenv from 'dotenv'
+import criarArquivo from './criarArquivo.js'
 
 /* load 'fs' for readFile and writeFile support */
 XLSX.set_fs(fs);
@@ -35,7 +36,8 @@ async function execute () {
 
   publicadores = addReportsToPublisher(publicadores, relatorios)
 
-  console.log({ publicadores })
+  for (let publicador of Object.values(publicadores))
+    criarArquivo(publicador)
 }
 
 function addReportsToPublisher(publishers, reports) {
