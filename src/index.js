@@ -51,12 +51,23 @@ function addReportsToPublisher(publishers, reports) {
   for (let report of reports) {
     if (!pubs[report['Publicador']]) continue
 
-    if (!pubs[report['Publicador']].reports) pubs[report['Publicador']].reports = []
+    if (!pubs[report['Publicador']].reports) pubs[report['Publicador']].reports = {}
 
-    pubs[report['Publicador']].reports.push(report)
+    let sy = determineServiceYear(report['Mês e Ano'])
+
+    if (!pubs[report['Publicador']].reports[sy]) pubs[report['Publicador']].reports[sy] = []
+
+    pubs[report['Publicador']].reports[sy].push(report)
   }
 
   return pubs
+}
+
+function determineServiceYear(dateTime) {
+  let date = new Date(dateTime)
+  let month = date.getMonth()
+
+  return month >= 8 ? date.getFullYear() + 1 : date.getFullYear()
 }
 
 execute()
