@@ -1,7 +1,9 @@
-import { PDFDocument, PDFTextField, PDFCheckBox } from 'pdf-lib'
+import { PDFDocument } from 'pdf-lib'
 import fs from 'fs'
 import * as dotenv from 'dotenv'
 dotenv.config()
+
+const TOTAL_FIELDS = 95
 
 const MAP_INFO = {
   'name': 0,
@@ -38,6 +40,21 @@ const MAP_REPORT_ORDER = [
   'returnVisits',
   'bibleStudies',
   'observation'
+]
+
+const INDEX_TO_MONTH = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
 ]
 
 async function arquivoBaseComInformacoesDoPublicador (publicador) {
@@ -83,13 +100,62 @@ function parseInfo (publicador) {
   }
 }
 
+/**
+ * @param {PDFDocument} pdfDoc
+ */
 async function adicionarHorasAoArquivo(pdfDoc, publicador) {
+  let years = Object.keys(publicador.reports)
+  let docs = [pdfDoc]
+
+  for (let qtdPaginas = 1; qtdPaginas < years.length; qtdPaginas ++) {
+    let newDoc = await PDFDocument.load(await pdfDoc.save())
+    docs.push(newDoc)
+  }
+  
+  // pdfDoc = await PDFDocument.load(await pdfDoc.save())
+  pdfDoc.getForm().updateFieldAppearances()
+  // console.log({ pdfDoc, formFields: pdfDoc.getForm().getFields() })
+  years.sort()
+
+  // console.log({ })
+  for (let id in years) {
+    addYearToFile(years[id], publicador.reports[years[id]], docs[id].getForm().getFields(), 0)
+  }
+
   return pdfDoc
+}
+
+async function addYearToFile (year, reports, fields, page) {
+  page = Number.parseInt(page)
+  let initialFormElement = page * TOTAL_FIELDS
+  initialFormElement = Number.parseInt(initialFormElement)
+  fields[initialFormElement + MAP_INFO['serviceYear']].setText(year)
+
+  for (let report of reports) {
+    let orderedReport = [
+      report['Publicações'] ?? null,
+      report['Vídeos'] ?? null,
+      report['Horas'] ?? null,
+      report['Revisitas'] ?? null,
+      report['Estudos Bíblicos'] ?? null,
+      report['Observações'] ?? null
+    ]
+
+    let month = (new Date(report['Mês e Ano'])).getMonth()
+    let monthStart = MAP_INFO[INDEX_TO_MONTH[month]]
+
+    for (let i in orderedReport) {
+      let value = orderedReport[i]
+
+      // console.log({ year, page, month, monthStart, dx: initialFormElement + monthStart + Number.parseInt(i), len: fields.length })
+      if (value != null) fields[initialFormElement + monthStart + Number.parseInt(i)].setText(String(value))
+    }
+  }
 }
 
 export default async function criarArquivo(publicador) {
   let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
-  pdfDoc = await adicionarHorasAoArquivo(pdfDoc, publicador)
+  let docs = await adicionarHorasAoArquivo(pdfDoc, publicador)
 
   let exists = fs.existsSync(`./${process.env.OUTPUTPATH}`)
 
