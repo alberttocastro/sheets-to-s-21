@@ -1,9 +1,7 @@
 import { PDFDocument } from 'pdf-lib'
-import Excel from 'exceljs'
 import fs from 'fs'
+import * as XLSX from 'xlsx/xlsx.mjs'
 import * as dotenv from 'dotenv'
-
-import * as XLSX from 'xlsx/xlsx.mjs';
 
 /* load 'fs' for readFile and writeFile support */
 XLSX.set_fs(fs);
@@ -18,38 +16,42 @@ XLSX.set_cptable(cpexcel);
 
 dotenv.config()
 
-const OUTPUT_PATH = process.env.OUTPUTPATH
+const DATA_TO_COL = {
+  month: 'B',
+  name: 'C',
+  literatures: 'D',
+  videos: 'E',
+  hours: 'F',
+  returnVisits: 'G',
+  bibleStudies: 'H',
+  observations: 'I',
+  auxPioneer: 'K'
+}
 
-async function main () {
-  let file = fs.readFileSync(process.env.PDFFORMPATH)
-  const pdfDoc = await PDFDocument.load(file)
-  
-  let pages = pdfDoc.getPages()
+async function execute () {
+  let file = XLSX.readFileSync('tmp/reports.xlsx', { cellDates: true })
+  let relatorios = XLSX.utils.sheet_to_json(file.Sheets['Relatórios'])
+  let publicadores = XLSX.utils.sheet_to_json(file.Sheets['Publicadores'])
 
-  let form = pages[0].doc.getForm()
-  let field = form.getFields()[0].setText('Hello world')
-  console.log({ form })
+  publicadores = addReportsToPublisher(publicadores, relatorios)
 
-  let pdfBytes = await pdfDoc.save()
+  console.log({ publicadores })
+}
 
-  let exists = fs.existsSync(`./${OUTPUT_PATH}`)
+function addReportsToPublisher(publishers, reports) {
+  let pubs = {}
 
-  if (!exists) {
-    fs.mkdirSync(`./${OUTPUT_PATH}`)
+  for (let publisher of publishers) pubs[publisher['Publicadores']] = publisher
+
+  for (let report of reports) {
+    if (!pubs[report['Publicador']]) continue
+
+    if (!pubs[report['Publicador']].reports) pubs[report['Publicador']].reports = []
+
+    pubs[report['Publicador']].reports.push(report)
   }
 
-  fs.writeFileSync(`${OUTPUT_PATH}/new-file.pdf`, pdfBytes)
+  return pubs
 }
 
-async function openExcel () {
-  let file = XLSX.readFileSync('tmp/reports.xlsx')
-
-  let reports = file.Sheets['Relatórios']
-
-  let cell = reports['A2'].w
-
-  console.log({ cell })
-}
-
-// main()
-openExcel()
+execute()
