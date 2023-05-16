@@ -4,12 +4,13 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
+const OUTPUT_PATH = process.env.OUTPUTPATH
+
 async function main () {
   let file = fs.readFileSync(process.env.PDFFORMPATH)
   const pdfDoc = await PDFDocument.load(file)
   
   let pages = pdfDoc.getPages()
-  // console.log({ page: pages[0].doc })
 
   let form = pages[0].doc.getForm()
   let field = form.getFields()[0].setText('Hello world')
@@ -17,7 +18,13 @@ async function main () {
 
   let pdfBytes = await pdfDoc.save()
 
-  fs.writeFileSync('./new-file.pdf', pdfBytes)
+  let exists = fs.existsSync(`./${OUTPUT_PATH}`)
+
+  if (!exists) {
+    fs.mkdirSync(`./${OUTPUT_PATH}`)
+  }
+
+  fs.writeFileSync(`${OUTPUT_PATH}/new-file.pdf`, pdfBytes)
 }
 
 main()
