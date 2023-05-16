@@ -1,4 +1,3 @@
-import { PDFDocument } from 'pdf-lib'
 import fs from 'fs'
 import * as XLSX from 'xlsx/xlsx.mjs'
 import * as dotenv from 'dotenv'
@@ -36,8 +35,12 @@ async function execute () {
 
   publicadores = addReportsToPublisher(publicadores, relatorios)
 
-  for (let publicador of Object.values(publicadores))
+  for (let publicador of Object.values(publicadores)){
+    // if (publicador['Publicadores'] != 'ALBERTO CASTRO BANDEIRA DE MELLO') {
+    //   continue
+    // }
     criarArquivo(publicador)
+  }
 }
 
 function addReportsToPublisher(publishers, reports) {
