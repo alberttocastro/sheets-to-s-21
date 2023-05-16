@@ -1,0 +1,18 @@
+{
+  "name": "publishers",
+  "version": "1.0.0",
+  "description": "Fill pdf for publisher registries",
+  "main": "index.js",
+  "scripts": {
+    "execute": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alberttocastro",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.3.0",
+    "node-fetch": "^3.3.1",
+    "pdf-lib": "^1.17.1"
+  },
+  "type": "module"
+}
