@@ -28,7 +28,6 @@ async function arquivoBaseComInformacoesDoPublicador (publicador) {
   let fields = form.getFields()
 
   for (let [key, value] of Object.entries(parsedInfo)) {
-    console.log({ key, value })
     let fieldIndex = MAP_INFO[key]
     let field = fields[fieldIndex]
     
@@ -66,8 +65,6 @@ async function adicionarHorasAoArquivo(pdfDoc, publicador) {
 }
 
 export default async function criarArquivo(publicador) {
-  console.log({ publicador })
-
   let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
   pdfDoc = await adicionarHorasAoArquivo(pdfDoc, publicador)
 
