@@ -118,18 +118,31 @@ async function adicionarHorasAoArquivo(pdfDoc, publicador) {
   years.sort()
 
   // console.log({ })
+  let addedFields = []
   for (let id in years) {
-    addYearToFile(years[id], publicador.reports[years[id]], docs[id].getForm().getFields(), 0)
+    let doc = docs[id]
+    let fields = doc.getForm().getFields()
+    let reports = publicador.reports[years[id]]
+    let year = years[id]
+
+    let newFields = await addYearToFile(year, reports, fields)
+
+    if (id == 0) continue
+    addedFields = [...addedFields, ...newFields]
+    // addedFields.concat(newFields)
   }
 
-  return pdfDoc
+  let year_doc_dict = {}
+  for (let id in docs) {
+    year_doc_dict[years[id]] = docs[id]
+  }
+
+  return year_doc_dict
 }
 
-async function addYearToFile (year, reports, fields, page) {
-  page = Number.parseInt(page)
-  let initialFormElement = page * TOTAL_FIELDS
-  initialFormElement = Number.parseInt(initialFormElement)
-  fields[initialFormElement + MAP_INFO['serviceYear']].setText(year)
+async function addYearToFile (year, reports, fields) {
+  fields[MAP_INFO['serviceYear']].setText(year)
+  let addedFields = []
 
   for (let report of reports) {
     let orderedReport = [
@@ -146,22 +159,36 @@ async function addYearToFile (year, reports, fields, page) {
 
     for (let i in orderedReport) {
       let value = orderedReport[i]
+      if (value == null) continue
 
-      // console.log({ year, page, month, monthStart, dx: initialFormElement + monthStart + Number.parseInt(i), len: fields.length })
-      if (value != null) fields[initialFormElement + monthStart + Number.parseInt(i)].setText(String(value))
+      let field = fields[monthStart + Number.parseInt(i)]
+      console.log({ field })
+
+      field.acroField.setPartialName(`${field.getName()}Number.parseInt(Math.random() * 100)`)
+      field.setText(String(value))
+
+      addedFields.push(field)
     }
   }
+
+  return addedFields
 }
 
-export default async function criarArquivo(publicador) {
-  let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
-  let docs = await adicionarHorasAoArquivo(pdfDoc, publicador)
-
+async function saveFile (file, publicador, nameApend) {
   let exists = fs.existsSync(`./${process.env.OUTPUTPATH}`)
 
   if (!exists) {
     fs.mkdirSync(`./${process.env.OUTPUTPATH}`)
   }
 
-  fs.writeFileSync(`${process.env.OUTPUTPATH}/${publicador['Publicadores']}.pdf`, await pdfDoc.save())
+  fs.writeFileSync(`${process.env.OUTPUTPATH}/${publicador['Publicadores']}${nameApend ? '-' + nameApend : ''}.pdf`, await file.save())
+}
+
+export default async function criarArquivo(publicador) {
+  let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
+  let docs = await adicionarHorasAoArquivo(pdfDoc, publicador)
+
+  for (let [year, doc] of Object.entries(docs)) {
+    await saveFile(doc, publicador, year)
+  }
 }
