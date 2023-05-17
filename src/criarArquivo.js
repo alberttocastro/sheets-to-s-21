@@ -3,8 +3,6 @@ import fs from 'fs'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const TOTAL_FIELDS = 95
-
 const MAP_INFO = {
   'name': 0,
   'birth': 7,
@@ -129,12 +127,19 @@ async function adicionarHorasAoArquivo(pdfDoc, publicador) {
     // addedFields.concat(newFields)
   }
 
-  let year_doc_dict = {}
   for (let id in docs) {
-    year_doc_dict[years[id]] = docs[id]
+    id = Number.parseInt(id)
+    if (id == 0) continue
+    let doc = docs[id]
+
+    doc = await PDFDocument.load(await docs[id].save())
+    let docFields = doc.getForm().getFields()
+
+    let [page] = await docs[0].copyPages(doc, [0])
+    docs[0].addPage(page)
   }
 
-  return year_doc_dict
+  return docs[0]
 }
 
 async function addYearToFile (year, reports, fields) {
@@ -210,21 +215,22 @@ function addSumAndAverage (report, fields) {
   return addedFields
 }
 
-async function saveFile (file, publicador, nameApend) {
+async function saveFile (file, name) {
+  let fullpath = `${process.env.OUTPUTPATH}/${name}.pdf`
   let exists = fs.existsSync(`./${process.env.OUTPUTPATH}`)
 
   if (!exists) {
     fs.mkdirSync(`./${process.env.OUTPUTPATH}`)
   }
 
-  fs.writeFileSync(`${process.env.OUTPUTPATH}/${publicador['Publicadores']}${nameApend ? '-' + nameApend : ''}.pdf`, await file.save({ updateFieldAppearances: true }))
+  fs.writeFileSync(fullpath, await file.save({ updateFieldAppearances: true }))
+
+  return fullpath
 }
 
 export default async function criarArquivo(publicador) {
   let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
-  let docs = await adicionarHorasAoArquivo(pdfDoc, publicador)
+  let doc = await adicionarHorasAoArquivo(pdfDoc, publicador)
 
-  for (let [year, doc] of Object.entries(docs)) {
-    await saveFile(doc, publicador, year)
-  }
+  await saveFile(doc, `${publicador['Publicadores']}`)
 }
