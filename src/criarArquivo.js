@@ -102,6 +102,10 @@ function parseInfo (publicador) {
  * @param {PDFDocument} pdfDoc
  */
 async function adicionarHorasAoArquivo(pdfDoc, publicador) {
+  if (!publicador.reports) {
+    console.log('Publicador sem relatórios', { publicador })
+    return
+  }
   let years = Object.keys(publicador.reports)
   let docs = [pdfDoc]
 
