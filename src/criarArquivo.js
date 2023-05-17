@@ -164,7 +164,7 @@ async function addYearToFile (year, reports, fields) {
       let field = fields[monthStart + Number.parseInt(i)]
       console.log({ field })
 
-      field.acroField.setPartialName(`${field.getName()}Number.parseInt(Math.random() * 100)`)
+      field.acroField.setPartialName(`${field.getName()}${Number.parseInt(Math.random() * 100)}`)
       field.setText(String(value))
 
       addedFields.push(field)
