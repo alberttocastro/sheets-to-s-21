@@ -61,7 +61,6 @@ function addReportsToPublisher(publishers, reports) {
   }
 
   for (let [publisher, data] of Object.entries(pubs)) {
-    console.log({ pb: pubs[publisher], publisher, data })
     pubs[publisher].reports = addTotalsAndAverage (pubs[publisher].reports)
   }
 
