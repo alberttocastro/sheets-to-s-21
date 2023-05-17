@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib'
+import { PDFDocument, sum } from 'pdf-lib'
 import fs from 'fs'
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -144,7 +144,16 @@ async function addYearToFile (year, reports, fields) {
   fields[MAP_INFO['serviceYear']].setText(year)
   let addedFields = []
 
-  for (let report of reports) {
+  for (let index in reports) {
+    let report = reports[index]
+
+    if (!report['Mês e Ano']) {
+      let sumAvgFields = addSumAndAverage(report, fields)
+
+      addedFields = [...addedFields, ...sumAvgFields]
+      break
+    }
+
     let orderedReport = [
       report['Publicações'] ?? null,
       report['Vídeos'] ?? null,
@@ -162,13 +171,43 @@ async function addYearToFile (year, reports, fields) {
       if (value == null) continue
 
       let field = fields[monthStart + Number.parseInt(i)]
-      console.log({ field })
 
       field.acroField.setPartialName(`${field.getName()}${Number.parseInt(Math.random() * 100)}`)
       field.setText(String(value))
 
       addedFields.push(field)
     }
+  }
+
+  return addedFields
+}
+
+function addSumAndAverage (report, fields) {
+  let addedFields = []
+
+  let orderedReport = [
+    report['Publicações'] ?? null,
+    report['Vídeos'] ?? null,
+    report['Horas'] ?? null,
+    report['Revisitas'] ?? null,
+    report['Estudos Bíblicos'] ?? null
+  ]
+
+  let sumIndex = MAP_INFO['total']
+  let avgIndex = MAP_INFO['average']
+  for (let index in orderedReport) {
+    let value = orderedReport[index]
+
+    let sumField = fields[sumIndex + Number.parseInt(index)]
+    let avgField = fields[avgIndex + Number.parseInt(index)] 
+
+    sumField.acroField.setPartialName(`${sumField.getName()}${Number.parseInt(Math.random() * 100)}`)
+    sumField.setText(String(value.total))
+
+    avgField.acroField.setPartialName(`${avgField.getName()}${Number.parseInt(Math.random() * 100)}`)
+    avgField.setText(String(value.avg))
+
+    addedFields.push(sumField, avgField)
   }
 
   return addedFields
