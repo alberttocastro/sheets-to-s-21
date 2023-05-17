@@ -113,7 +113,7 @@ async function adicionarHorasAoArquivo(pdfDoc, publicador) {
   }
   
   // pdfDoc = await PDFDocument.load(await pdfDoc.save())
-  pdfDoc.getForm().updateFieldAppearances()
+  // pdfDoc.getForm().updateFieldAppearances()
   // console.log({ pdfDoc, formFields: pdfDoc.getForm().getFields() })
   years.sort()
 
