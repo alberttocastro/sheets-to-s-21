@@ -121,6 +121,11 @@ function addTotalAndAverageForYear (reports) {
   }
 
   for (let prop of Object.keys(totals)) {
+    if (totals[prop].count == 0) {
+      totals[prop].avg = 0
+      continue
+    }
+
     let avg = totals[prop].total / totals[prop].count
     avg = Math.round(avg * 100) / 100
 
