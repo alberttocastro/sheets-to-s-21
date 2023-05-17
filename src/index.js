@@ -36,9 +36,6 @@ async function execute () {
   publicadores = addReportsToPublisher(publicadores, relatorios)
 
   for (let publicador of Object.values(publicadores)){
-    if (publicador['Publicadores'] != 'ALBERTO CASTRO BANDEIRA DE MELLO') {
-      continue
-    }
     criarArquivo(publicador)
   }
 }
