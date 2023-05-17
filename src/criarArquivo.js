@@ -112,12 +112,9 @@ async function adicionarHorasAoArquivo(pdfDoc, publicador) {
     docs.push(newDoc)
   }
   
-  // pdfDoc = await PDFDocument.load(await pdfDoc.save())
-  // pdfDoc.getForm().updateFieldAppearances()
-  // console.log({ pdfDoc, formFields: pdfDoc.getForm().getFields() })
+  pdfDoc = await PDFDocument.load(await pdfDoc.save())
   years.sort()
 
-  // console.log({ })
   let addedFields = []
   for (let id in years) {
     let doc = docs[id]
@@ -220,7 +217,7 @@ async function saveFile (file, publicador, nameApend) {
     fs.mkdirSync(`./${process.env.OUTPUTPATH}`)
   }
 
-  fs.writeFileSync(`${process.env.OUTPUTPATH}/${publicador['Publicadores']}${nameApend ? '-' + nameApend : ''}.pdf`, await file.save())
+  fs.writeFileSync(`${process.env.OUTPUTPATH}/${publicador['Publicadores']}${nameApend ? '-' + nameApend : ''}.pdf`, await file.save({ updateFieldAppearances: true }))
 }
 
 export default async function criarArquivo(publicador) {
