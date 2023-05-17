@@ -236,5 +236,7 @@ export default async function criarArquivo(publicador) {
   let pdfDoc = await arquivoBaseComInformacoesDoPublicador(publicador)
   let doc = await adicionarHorasAoArquivo(pdfDoc, publicador)
 
+  if (!doc) return
+
   await saveFile(doc, `${publicador['Publicadores']}`)
 }
