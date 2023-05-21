@@ -22,7 +22,7 @@ export class SpreadsheetService {
     this.workbook = XLSX.readFile(this.path, { cellDates: true })
   }
 
-  public getSheetAsJson(sheetName: string): object|null {
+  public getSheetAsJson(sheetName: string): object[]|null {
     let sheet: XLSX.Sheet = this.workbook.Sheets[sheetName]
 
     if (sheet == null) return null
