@@ -11,5 +11,5 @@ if (reports == null || publishers == null) {
   process.abort()
 }
 
-let reportsService: ReportsService = new ReportsService(reports)
+let reportsService: ReportsService = new ReportsService(publishers)
 reportsService.addReportsToPublishers(reports)

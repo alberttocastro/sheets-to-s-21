@@ -1,15 +1,41 @@
-export class ReportsService {
-  private publishers: Array<object>
+import Publisher from "../models/Publisher.ts"
 
-  constructor (publishers) {
-    this.publishers = publishers
+const FILE_TO_PROPERTY = {
+  name: 'Publicadores',
+  birth: 'Nascimento',
+  baptism: 'Batismo',
+  male: 'Homem?',
+  anointed: 'Participa Emblemas?',
+  elder: 'Ancião?',
+  pioneer: 'Pioneiro Regular?'
+}
+
+export class ReportsService {
+  private publishers: Array<Publisher> = []
+
+  constructor (publishers: object[]) {
+    for (let publisher of publishers) {
+      this.publishers.push(
+        new Publisher(
+          publisher[FILE_TO_PROPERTY.name],
+          publisher[FILE_TO_PROPERTY.birth],
+          publisher[FILE_TO_PROPERTY.baptism] ?? null,
+          publisher[FILE_TO_PROPERTY.male] ?? false,
+          publisher[FILE_TO_PROPERTY.anointed] ?? false, 
+          publisher[FILE_TO_PROPERTY.elder] ?? false, 
+          publisher[FILE_TO_PROPERTY.pioneer] ?? false
+        )
+      )
+    }
   }
 
-  public addReportsToPublishers(reports: Array<object>): void {
+  public addReportsToPublishers(reports: object[]): void {
     let pubs = {}
 
-    for (let publisher of this.publishers) pubs[publisher['Publicador']] = publisher
-  
+    for (let publisher of this.publishers) {
+      pubs[publisher.name] = publisher
+    }
+
     for (let report of reports) {
       // Sanity check
       if (!pubs[report['Publicador']]) continue
@@ -17,12 +43,15 @@ export class ReportsService {
       if (!pubs[report['Publicador']].reports) pubs[report['Publicador']].reports = {}  
       let sy: number = this.determineServiceYear(report['Mês e Ano'])
       if (!pubs[report['Publicador']].reports[sy]) pubs[report['Publicador']].reports[sy] = []
-  
+
       pubs[report['Publicador']].reports[sy].push(report)
     }
   
     for (let [publisher, data] of Object.entries(pubs)) {
-      pubs[publisher].reports = this.addTotalsAndAverage (pubs[publisher].reports)
+      let reports = pubs[publisher].reports
+      if (!reports) continue
+
+      pubs[publisher].reports = this.addTotalsAndAverage (reports)
     }
   }
 
