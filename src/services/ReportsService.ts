@@ -1,4 +1,5 @@
 import Publisher from "../models/Publisher.ts"
+import Report from "../models/Report.ts"
 
 const FILE_TO_PROPERTY = {
   name: 'Publicadores',
@@ -30,6 +31,7 @@ export class ReportsService {
   }
 
   public addReportsToPublishers(reports: object[]): void {
+    console.log('addReportsToPublishers (init)')
     let pubs = {}
 
     for (let publisher of this.publishers) {
@@ -44,7 +46,8 @@ export class ReportsService {
       let sy: number = this.determineServiceYear(report['Mês e Ano'])
       if (!pubs[report['Publicador']].reports[sy]) pubs[report['Publicador']].reports[sy] = []
 
-      pubs[report['Publicador']].reports[sy].push(report)
+      const reportToAdd = new Report(report['Mês e Ano'], report['Publicações'], report['Vídeos'], report['Horas'], report['Revisitas'], report['Estudos Bíblicos'])
+      pubs[report['Publicador']].reports[sy].push(reportToAdd)
     }
   
     for (let [publisher, data] of Object.entries(pubs)) {
