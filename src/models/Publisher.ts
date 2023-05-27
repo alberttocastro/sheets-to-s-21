@@ -1,4 +1,5 @@
 import Report from "./Report.ts"
+import ServiceYear from "./ServiceYear.ts"
 
 export default class Publisher {
   public name: string
@@ -8,9 +9,9 @@ export default class Publisher {
   public anointed: boolean
   public elder: boolean
   public pioneer: boolean
-  public reports: object
+  public years: Map<string, ServiceYear>
 
-  constructor (name, birth, baptism, male, anointed, elder, pioneer, reports: object|null = null) {
+  constructor (name, birth, baptism, male, anointed, elder, pioneer) {
     this.name = name
     this.birth = birth
     this.baptism = baptism
@@ -18,19 +19,13 @@ export default class Publisher {
     this.anointed = anointed
     this.elder = elder
     this.pioneer = pioneer
-
-    if (reports == null) {
-      return this
-    }
-
-    this.reports = reports
   }
 
-  public addReport (serviceYear: number, report: Report): void {
-    if (!this.reports[serviceYear]) {
-      this.reports[serviceYear] = []
+  public addReport (serviceYear: string, report: Report): void {
+    if (this.years.has(serviceYear)) {
+      this.years.set(serviceYear, new ServiceYear(Number.parseInt(serviceYear)))
     }
 
-    this.reports[serviceYear].push(report)
+    this.years.get(serviceYear).addReport(report)
   }
 }
