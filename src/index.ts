@@ -1,5 +1,6 @@
 import { SpreadsheetService } from "./services/SpreadsheetService.ts";
 import { ReportsService } from "./services/ReportsService.ts";
+import PdfService from "./services/PdfService.ts";
 
 let spreadsheetService: SpreadsheetService = new SpreadsheetService('tmp/reports.xlsx')
 
@@ -13,3 +14,5 @@ if (reports == null || publishers == null) {
 
 let reportsService: ReportsService = new ReportsService(publishers)
 reportsService.addReportsToPublishers(reports)
+
+new PdfService(reportsService.getPublishers())
