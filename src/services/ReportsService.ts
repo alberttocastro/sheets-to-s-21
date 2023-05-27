@@ -64,4 +64,8 @@ export class ReportsService {
       )
     }
   }
+
+  public getPublishers(): Map<string, Publisher> {
+    return this.publishers
+  }
 }
