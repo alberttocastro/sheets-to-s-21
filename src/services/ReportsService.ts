@@ -23,11 +23,12 @@ const REPORT_PROPS_MAP = {
 }
 
 export class ReportsService {
-  private publishers: Array<Publisher> = []
+  private publishers: Map<string, Publisher> = new Map()
 
   constructor (publishers: object[]) {
     for (let publisher of publishers) {
-      this.publishers.push(
+      this.publishers.set(
+        publisher[PUBLISHER_PROPS_MAP.name],
         new Publisher(
           publisher[PUBLISHER_PROPS_MAP.name],
           publisher[PUBLISHER_PROPS_MAP.birth],
@@ -42,31 +43,25 @@ export class ReportsService {
   }
 
   public addReportsToPublishers(reports: object[]): void {
-    let pubs: Map<string, Publisher> = new Map()
-
-    for (let publisher of this.publishers) {
-      pubs.set(publisher.name, publisher)
-    }
-
     for (let report of reports) {
+      let publisherName: string = report[REPORT_PROPS_MAP.name]
       // Sanity check
-      if (!pubs[REPORT_PROPS_MAP.name]) continue
+      if (!this.publishers.get(publisherName)) continue
 
-      if (!pubs[REPORT_PROPS_MAP.name].reports) pubs[REPORT_PROPS_MAP.name].reports = {}  
-      let sy: number = ServiceYear.determineServiceYear(REPORT_PROPS_MAP.date)
-      if (!pubs[REPORT_PROPS_MAP.name].reports[sy]) pubs[REPORT_PROPS_MAP.name].reports[sy] = []
+      let sy: string = ServiceYear.determineServiceYear(REPORT_PROPS_MAP.date) + ''
 
-      const reportToAdd = new Report(
-        report[REPORT_PROPS_MAP.date],
-        report[REPORT_PROPS_MAP.literatures],
-        report[REPORT_PROPS_MAP.videos],
-        report[REPORT_PROPS_MAP.hours],
-        report[REPORT_PROPS_MAP.visits],
-        report[REPORT_PROPS_MAP.studies],
-        report[REPORT_PROPS_MAP.name]
+      this.publishers.get(report[REPORT_PROPS_MAP.name]).addReport(
+        sy, 
+        new Report(
+          report[REPORT_PROPS_MAP.date],
+          report[REPORT_PROPS_MAP.literatures],
+          report[REPORT_PROPS_MAP.videos],
+          report[REPORT_PROPS_MAP.hours],
+          report[REPORT_PROPS_MAP.visits],
+          report[REPORT_PROPS_MAP.studies],
+          report[REPORT_PROPS_MAP.name]
+        )
       )
-
-      pubs.get(report[REPORT_PROPS_MAP.name]).addReport(sy + '', reportToAdd)
     }
   }
 }
