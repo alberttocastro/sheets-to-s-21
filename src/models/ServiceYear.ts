@@ -2,7 +2,7 @@ import Report from './Report.ts'
 
 export default class ServiceYear {
   private year: number
-  private reports: Report[] = []
+  public reports: Report[] = []
   private count: object = {
     literatures: 0,
     videos: 0,
@@ -32,11 +32,13 @@ export default class ServiceYear {
     this.reports.push(report)
 
     for (let [key, value] of Object.entries(report)) {
-      if (report[key]) {
+      if (report[key] && Object.keys(this.totals).includes(key)) {
         this.count[key] ++
         this.totals[key] += value
       }
     }
+
+    let { count, totals } = this
   }
 
   public getTotals(): object {
@@ -47,7 +49,13 @@ export default class ServiceYear {
     let average = {...this.totals}
 
     for (let [key, value] of Object.entries(this.totals)) {
-      average[key] = average[key] / this.count[key]
+      let count = this.count[key]
+      if (count === 0) {
+        average[key] == 0
+        continue
+      }
+
+      average[key] = average[key] / count
     }
 
     return average

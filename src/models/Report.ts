@@ -1,13 +1,14 @@
 export default class Report {
-  month: Date
-  literatures: number = 0
-  videos: number = 0
-  hours: number = 0
-  visits: number = 0
-  studies: number = 0
-  name: string
+  public month: Date
+  public literatures: number = 0
+  public videos: number = 0
+  public hours: number = 0
+  public visits: number = 0
+  public studies: number = 0
+  public name: string
+  public notes: string = ''
 
-  constructor (month: Date, literatures: number, videos: number, hours: number, visits: number, studies: number, name: string) {
+  constructor (month: Date, literatures: number, videos: number, hours: number, visits: number, studies: number, name: string, notes: string = '') {
     this.month = month
     this.literatures = literatures
     this.videos = videos
@@ -15,5 +16,6 @@ export default class Report {
     this.visits = visits
     this.studies = studies
     this.name = name
+    this.notes = notes
   }
 }

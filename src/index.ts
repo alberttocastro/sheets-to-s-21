@@ -15,4 +15,6 @@ if (reports == null || publishers == null) {
 let reportsService: ReportsService = new ReportsService(publishers)
 reportsService.addReportsToPublishers(reports)
 
-new PdfService(reportsService.getPublishers())
+let pdfService: PdfService = new PdfService(reportsService.getPublishers())
+
+pdfService.generateFiles('ALBERTO CASTRO BANDEIRA DE MELLO')

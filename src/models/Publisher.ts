@@ -9,7 +9,7 @@ export default class Publisher {
   public anointed: boolean
   public elder: boolean
   public pioneer: boolean
-  public years: Map<string, ServiceYear>
+  public years: Map<string, ServiceYear> = new Map()
 
   constructor (name, birth, baptism, male, anointed, elder, pioneer) {
     this.name = name
@@ -22,7 +22,7 @@ export default class Publisher {
   }
 
   public addReport (serviceYear: string, report: Report): void {
-    if (this.years.has(serviceYear)) {
+    if (!this.years.has(serviceYear)) {
       this.years.set(serviceYear, new ServiceYear(Number.parseInt(serviceYear)))
     }
 

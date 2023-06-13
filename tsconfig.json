@@ -3,7 +3,8 @@
       "module": "ESNext", // or ES2015, ES2020
       "noEmit": true,
       "allowImportingTsExtensions": true,
-      "moduleResolution": "nodenext"
+      "moduleResolution": "nodenext",
+      "downlevelIteration": true
   },
   "ts-node": {
       // Tell ts-node CLI to install the --loader automatically

@@ -48,7 +48,7 @@ export class ReportsService {
       // Sanity check
       if (!this.publishers.get(publisherName)) continue
 
-      let sy: string = ServiceYear.determineServiceYear(REPORT_PROPS_MAP.date) + ''
+      let sy: string = ServiceYear.determineServiceYear(report[REPORT_PROPS_MAP.date]) + ''
 
       this.publishers.get(report[REPORT_PROPS_MAP.name]).addReport(
         sy, 
