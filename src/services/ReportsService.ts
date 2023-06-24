@@ -16,10 +16,11 @@ const REPORT_PROPS_MAP = {
   name: 'Publicador',
   date: 'Mês e Ano',
   literatures: 'Publicações',
-  videos: 'Videos',
-  hours: 'Hours',
+  videos: 'Vídeos',
+  hours: 'Horas',
   visits: 'Revisitas',
-  studies: 'Estudos Bíblicos'
+  studies: 'Estudos Bíblicos',
+  notes: 'Observações'
 }
 
 export class ReportsService {
@@ -59,7 +60,8 @@ export class ReportsService {
           report[REPORT_PROPS_MAP.hours],
           report[REPORT_PROPS_MAP.visits],
           report[REPORT_PROPS_MAP.studies],
-          report[REPORT_PROPS_MAP.name]
+          report[REPORT_PROPS_MAP.name],
+          report[REPORT_PROPS_MAP.notes]
         )
       )
     }
