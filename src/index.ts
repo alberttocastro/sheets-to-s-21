@@ -17,4 +17,4 @@ reportsService.addReportsToPublishers(reports)
 
 let pdfService: PdfService = new PdfService(reportsService.getPublishers())
 
-pdfService.generateFiles('ALBERTO CASTRO BANDEIRA DE MELLO')
+pdfService.generateFiles()

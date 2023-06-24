@@ -8,16 +8,18 @@ export default class Publisher {
   public male: boolean
   public anointed: boolean
   public elder: boolean
+  public ministerialServant: boolean
   public pioneer: boolean
   public years: Map<string, ServiceYear> = new Map()
 
-  constructor (name, birth, baptism, male, anointed, elder, pioneer) {
+  constructor (name, birth, baptism, male, anointed, elder, ministerialServant, pioneer) {
     this.name = name
     this.birth = birth
     this.baptism = baptism
     this.male = male
     this.anointed = anointed
     this.elder = elder
+    this.ministerialServant = ministerialServant
     this.pioneer = pioneer
   }
 

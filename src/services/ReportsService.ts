@@ -9,6 +9,7 @@ const PUBLISHER_PROPS_MAP = {
   male: 'Homem?',
   anointed: 'Participa Emblemas?',
   elder: 'Ancião?',
+  ministerialServant: 'Servo Ministerial?',
   pioneer: 'Pioneiro Regular?'
 }
 
@@ -35,8 +36,9 @@ export class ReportsService {
           publisher[PUBLISHER_PROPS_MAP.birth],
           publisher[PUBLISHER_PROPS_MAP.baptism] ?? null,
           publisher[PUBLISHER_PROPS_MAP.male] ?? false,
-          publisher[PUBLISHER_PROPS_MAP.anointed] ?? false, 
-          publisher[PUBLISHER_PROPS_MAP.elder] ?? false, 
+          publisher[PUBLISHER_PROPS_MAP.anointed] ?? false,
+          publisher[PUBLISHER_PROPS_MAP.elder] ?? false,
+          publisher[PUBLISHER_PROPS_MAP.ministerialServant] ?? false,
           publisher[PUBLISHER_PROPS_MAP.pioneer] ?? false
         )
       )

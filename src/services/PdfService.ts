@@ -15,7 +15,7 @@ export default class PdfService {
     this.publishers = publishers
   }
 
-  public async generateFiles(publisherName: string): Promise<void> {
+  public async generateFiles(publisherName: string = null): Promise<void> {
     if (publisherName === null) {
       return this.generateFilesForAll()
     }
@@ -32,6 +32,9 @@ export default class PdfService {
   private async generateFileForPublisher(publisher: Publisher): Promise<void> {
     let basicDocument: PDFDocument = await this.generateBasicFile(publisher)
     let documents: Map<string, PDFDocument> = await this.addHoursToFile(basicDocument, publisher)
+
+    // @ts-ignore
+    if (documents === undefined) return
 
     for (let year of Array.from(documents.keys())) {
       const document = documents.get(year)
@@ -53,9 +56,24 @@ export default class PdfService {
       let fieldIndex = MAP_INFO[key]
       /** @type {PDFCheckBox|PDFTextField} */
       let field = fields[fieldIndex]
+
+      if (value === null) {
+        continue
+      }
       
       if (field instanceof PDFCheckBox) {
         value ? field.check() : field.uncheck()
+
+        if (key === 'male' && !value) {
+          // @ts-ignore
+          fields[MAP_INFO['female']].check() 
+        }
+
+        if (key === 'anointed' && !value) {
+          // @ts-ignore
+          fields[MAP_INFO['otherSheep']].check()
+        }
+
         continue
       }
       if (field instanceof PDFTextField) {
