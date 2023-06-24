@@ -142,7 +142,7 @@ export default class PdfService {
 
     let sumAvgFields = this.addSumAndAverage(serviceYear.getAverage(), serviceYear.getTotals(), fields)
     addedFields = [...addedFields, ...sumAvgFields]
-  
+
     return addedFields
   }
 
@@ -173,13 +173,17 @@ export default class PdfService {
   
       sumField.acroField.setPartialName(`${sumField.getName()}${Math.random() * 100}`)
       let sumValue = orderedTotals[i]
+      sumValue = Math.round(sumValue * 100) / 100
+      sumValue = String(sumValue)
       if (sumValue > 0)
         sumField.setText(String(sumValue))
   
       avgField.acroField.setPartialName(`${avgField.getName()}${Math.random() * 100}`)
       let avgValue = orderedAverage[i]
+      avgValue = Math.round(avgValue * 100) / 100
+      avgValue = String(avgValue)
       if (avgValue > 0)
-        avgField.setText(String(avgValue))
+        avgField.setText(avgValue)
 
       addedFields.push(sumField, avgField)
     }
