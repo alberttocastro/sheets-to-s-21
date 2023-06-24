@@ -58,9 +58,10 @@ export default class PdfService {
         value ? field.check() : field.uncheck()
         continue
       }
-
-      if (field instanceof PDFTextField && typeof value === 'number') {
-        field.setText(String(value))
+      if (field instanceof PDFTextField) {
+        if (typeof value === 'number') value = String(value)
+        if (value instanceof Date) value = value.toLocaleDateString('pt-BR')
+        field.setText(value)
       }
     }
 
