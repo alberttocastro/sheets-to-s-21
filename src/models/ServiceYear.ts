@@ -33,6 +33,7 @@ export default class ServiceYear {
 
     for (let [key, value] of Object.entries(report)) {
       if (report[key] && Object.keys(this.totals).includes(key)) {
+        value = typeof value != 'number' ? 0 : value
         this.count[key] ++
         this.totals[key] += value
       }
