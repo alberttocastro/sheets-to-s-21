@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Fill pdf for publisher registries",
   "author": "alberttocastro",
-  "private":true,
+  "private": true,
   "scripts": {
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
@@ -16,13 +16,14 @@
   "main": "src/background.js",
   "dependencies": {
     "@vue/cli-service": "^5.0.8",
+    "core-js": "^3.8.3",
     "dotenv": "^16.0.3",
     "exceljs": "^4.3.0",
     "node-fetch": "^3.3.1",
     "pdf-lib": "^1.17.1",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
-    "core-js": "^3.8.3",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vue-router": "^4.2.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -1,28 +1,29 @@
+<!-- Create a vue file with a big welcome in the middle of the screen -->
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- create an input to upload a file -->
+  <div>
+    <h1>Welcome to the Vue.js app</h1>
+    <input type="file" />
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<style>
 
+</style>
+
+<script>
+// Get the file from the input and save in a temporary folder
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      file: null
+    }
+  },
+  methods: {
+    onFileChange(e) {
+      this.file = e.target.files[0];
+    },
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
