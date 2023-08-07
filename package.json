@@ -2,12 +2,12 @@
   "name": "publishers",
   "version": "1.0.0",
   "description": "Fill pdf for publisher registries",
-  "main": "src/index.js",
+  "main": "main.js",
   "scripts": {
     "execute": "ts-node src/index.ts",
     "execute-node": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "electron": "electron src/."
+    "start": "electron ."
   },
   "author": "alberttocastro",
   "license": "ISC",
