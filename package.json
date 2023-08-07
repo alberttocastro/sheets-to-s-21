@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Fill pdf for publisher registries",
   "author": "alberttocastro",
+  "private":true,
   "scripts": {
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
@@ -10,26 +11,53 @@
     "execute-node": "node src/index.js",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "main": "background.js",
+  "main": "src/background.js",
   "dependencies": {
     "@vue/cli-service": "^5.0.8",
     "dotenv": "^16.0.3",
     "exceljs": "^4.3.0",
     "node-fetch": "^3.3.1",
     "pdf-lib": "^1.17.1",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
+    "core-js": "^3.8.3",
+    "vue": "^2.6.14"
   },
   "devDependencies": {
-    "electron": "^25.3.2",
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "electron": "^13.0.0",
     "electron-devtools-installer": "^3.1.0",
-    "vue-cli-plugin-electron-builder": "~2.1.1"
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-cli-plugin-electron-builder": "~2.1.1",
+    "vue-template-compiler": "^2.6.14"
   },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
   "license": "ISC",
   "overrides": {
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
-  },
-  "type": "module"
+  }
 }
