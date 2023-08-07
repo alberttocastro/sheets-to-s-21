@@ -2,16 +2,19 @@
 // This file is responsible for creating the main window and loading the index.html file
 // It also handles the application lifecycle events
 
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
 // Import electron
-const electron = import('electron');
+const electron = require('electron');
 // Import the app module
 const app = electron.app;
 // Import the BrowserWindow module
 const BrowserWindow = electron.BrowserWindow;
 // Import the path module
-const path = import('path');
+const path = require("path");
 // Import the url module
-const url = import('url');
+const url = require("url");
 
 // Create a global reference to the window object
 let mainWindow;

@@ -2,7 +2,7 @@
   "name": "publishers",
   "version": "1.0.0",
   "description": "Fill pdf for publisher registries",
-  "main": "main.js",
+  "main": "main.cjs",
   "scripts": {
     "execute": "ts-node src/index.ts",
     "execute-node": "node src/index.js",
