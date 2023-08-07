@@ -2,3 +2,5 @@ node_modules
 tmp
 .env
 output
+#Electron-builder output
+/dist_electron
