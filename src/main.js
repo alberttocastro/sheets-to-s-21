@@ -1,18 +1,10 @@
-import Vue from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue'
+import App from './App.vue'
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
 
-Vue.config.productionTip = false;
+loadFonts()
 
-// import vue-router@4 and use it in vue
-import { createRouter } from "vue-router";
-
-import routes from "./routes"
-const router = createRouter({
-  routes
-});
-
-// initialize vue with router
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+createApp(App)
+  .use(vuetify)
+  .mount('#app')

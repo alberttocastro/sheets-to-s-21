@@ -1,9 +1,9 @@
 {
   "name": "publishers",
   "version": "1.0.0",
+  "private": true,
   "description": "Fill pdf for publisher registries",
   "author": "alberttocastro",
-  "private": true,
   "scripts": {
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
@@ -15,14 +15,18 @@
   },
   "main": "src/background.js",
   "dependencies": {
+    "@mdi/font": "5.9.55",
     "@vue/cli-service": "^5.0.8",
     "core-js": "^3.8.3",
     "dotenv": "^16.0.3",
     "exceljs": "^4.3.0",
     "node-fetch": "^3.3.1",
     "pdf-lib": "^1.17.1",
+    "roboto-fontface": "*",
     "vue": "^2.6.14",
     "vue-router": "^4.2.4",
+    "vuetify": "^3.0.0-beta.0",
+    "webfontloader": "^1.0.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
@@ -36,7 +40,9 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "vue-cli-plugin-electron-builder": "~2.1.1",
-    "vue-template-compiler": "^2.6.14"
+    "vue-cli-plugin-vuetify": "~2.5.8",
+    "vue-template-compiler": "^2.6.14",
+    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   },
   "eslintConfig": {
     "root": true,
