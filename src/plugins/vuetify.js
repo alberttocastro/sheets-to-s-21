@@ -3,8 +3,18 @@ import '@mdi/font/css/materialdesignicons.css'
 import "vuetify/dist/vuetify.min.css"
 
 // Vuetify
-import { createVuetify } from 'vuetify'
+import Vuetify from 'vuetify'
 
-export default createVuetify(
-  // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
-)
+const options = {
+  theme: {
+    dark: false,
+  },
+  options: {
+    customProperties: true,
+  },
+  icons: {
+    iconfont: "mdi",
+  },
+};
+
+export default new Vuetify(options);
