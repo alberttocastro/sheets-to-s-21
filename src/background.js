@@ -15,6 +15,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    backgroundColor: '#FFF', // Add this new line
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
