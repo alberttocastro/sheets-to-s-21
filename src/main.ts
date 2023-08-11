@@ -6,7 +6,7 @@ import routes from './routes'
 import { loadFonts } from './plugins/webfontloader'
 
 Vue.use(VueRouter);
-let router = new VueRouter({
+const router = new VueRouter({
   routes,
   mode: "history",
 });
