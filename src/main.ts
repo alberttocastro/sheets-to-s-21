@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import { loadFonts } from './plugins/webfontloader'
+
+import vuetify from './plugins/vuetify'
+Vue.use(vuetify)
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -14,7 +16,6 @@ const router = new VueRouter({
 loadFonts()
 
 new Vue({
-  vuetify,
   router,
   render: (h) => h(App),
 }).$mount("#app");

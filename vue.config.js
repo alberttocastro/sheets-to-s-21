@@ -4,7 +4,38 @@ module.exports = defineConfig({
 
   pluginOptions: {
     vuetify: {
-			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
-		}
-  }
-})
+      // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
+    },
+  },
+
+  configureWebpack: {
+    resolve: {
+      // Add `.ts` and `.tsx` as a resolvable extension.
+      extensions: [".ts", ".tsx", ".js"],
+      // Add support for TypeScripts fully qualified ESM imports.
+      extensionAlias: {
+        ".js": [".js", ".ts"],
+        ".cjs": [".cjs", ".cts"],
+        ".mjs": [".mjs", ".mts"]
+      },
+      fallback: {
+        fs: false,
+        tls: false,
+        net: false,
+        path: false,
+        zlib: false,
+        http: false,
+        https: false,
+        stream: false,
+        crypto: false,
+        "crypto-browserify": require.resolve("crypto-browserify"),
+      },
+    },
+    module: {
+      rules: [
+        // all files with a `.ts`, `.cts`, `.mts` or `.tsx` extension will be handled by `ts-loader`
+        { test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" }
+      ]
+    }
+  },
+});

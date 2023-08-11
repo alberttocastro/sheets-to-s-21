@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx'
 import * as cpexcel from 'xlsx/dist/cpexcel.full.mjs';
 import { Readable } from 'stream';
-import { Publishers, Reports, Snapshots } from '../consts/ReportsBaseFile.ts'
+import { Publishers, Reports, Snapshots } from '../consts/ReportsBaseFile'
 
 export default class CreateSpreadsheetService {
 

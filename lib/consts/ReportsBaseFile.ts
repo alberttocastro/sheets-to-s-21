@@ -1,4 +1,4 @@
-export let Publishers = [
+export const Publishers = [
   {
     A: 'Nome',
     B: 'Grupo',
@@ -18,7 +18,7 @@ export let Publishers = [
   }
 ]
 
-export let Reports = [
+export const Reports = [
   {
     A: 'Grupo',
     B: 'Mês e Ano',
@@ -36,7 +36,7 @@ export let Reports = [
   }
 ]
 
-export let Snapshots = [
+export const Snapshots = [
   {
     A: 'Mês e Ano',
     B: 'Agrupamento',
