@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx'
 import * as cpexcel from 'xlsx/dist/cpexcel.full.mjs';
 import { Readable } from 'stream';
 
-export class SpreadsheetService {
+export default class SpreadsheetService {
   private path: string;
   private workbook: XLSX.WorkBook;
 
@@ -23,7 +23,7 @@ export class SpreadsheetService {
   }
 
   public getSheetAsJson(sheetName: string): object[]|null {
-    let sheet: XLSX.Sheet = this.workbook.Sheets[sheetName]
+    const sheet: XLSX.Sheet = this.workbook.Sheets[sheetName]
 
     if (sheet == null) return null
 
