@@ -1,18 +1,22 @@
 <template>
   <div>
     <h1>Welcome to the Vue.js app</h1>
-    <v-file-input truncate-length="15" v-model="file" @change="logFile"></v-file-input>
+    <v-file-input
+      truncate-length="15"
+      v-model="file"
+      @change="logFile"
+    ></v-file-input>
     <v-btn @click="saveFileToLocalStorage">Save</v-btn>
     <v-btn @click="createNewFile">Create a new file</v-btn>
   </div>
 </template>
 
-
 <script lang="ts">
 import Electron from "electron";
 import CreateSpreadsheetService from "../../lib/services/CreateSpreadsheetService";
 
-import Vue from 'vue';
+import Vue from "vue";
+import { SaveDialogReturnValue } from "electron/main";
 
 export default Vue.extend({
   name: "HomePage",
@@ -25,38 +29,42 @@ export default Vue.extend({
 
   methods: {
     logFile() {
-      console.log({file: this.file});
+      console.log({ file: this.file });
     },
     saveFileToLocalStorage() {
       if (!this.file) {
         return;
       }
-      localStorage.setItem("file", this.file['path']);
+      localStorage.setItem("file", this.file["path"]);
     },
     createNewFile() {
       // Create new file with the desired layout
       const createSpreadsheetService = new CreateSpreadsheetService();
 
       let workbook = createSpreadsheetService.createFile();
-      console.log({ workbook })
+      console.log({ workbook });
 
       const dialog = Electron.remote.dialog;
       const browserWindow = Electron.remote.getCurrentWindow();
 
-      dialog.showSaveDialog(
-        browserWindow,
-        {
+      dialog
+        .showSaveDialog(browserWindow, {
           title: "Save base file",
-          defaultPath: "C:\\Users\\User\\Desktop\\test.xlsx",
+          defaultPath: "test.xlsx",
           filters: [
             {
               name: "Excel",
               extensions: ["xlsx"],
             },
           ],
-        }
-      );
-    }
-  }
-})
+        })
+        .then((saveDialogReturnValue: SaveDialogReturnValue) => {
+          if (saveDialogReturnValue.filePath) {
+            createSpreadsheetService.writeFile(saveDialogReturnValue.filePath, workbook)
+            console.log("File saved");
+          }
+        });
+    },
+  },
+});
 </script>
