@@ -1,3 +1,4 @@
+import * as fs from 'fs'
 import * as XLSX from 'xlsx'
 import * as cpexcel from 'xlsx/dist/cpexcel.full.mjs';
 import { Readable } from 'stream';
@@ -5,7 +6,10 @@ import { Publishers, Reports, Snapshots } from '../consts/ReportsBaseFile'
 
 export default class CreateSpreadsheetService {
 
-  constructor () {
+  constructor() {
+    /* load 'fs' for readFile and writeFile support */
+    XLSX.set_fs(fs);
+
     /* load 'stream' for stream support */
     XLSX.stream.set_readable(Readable);
 
