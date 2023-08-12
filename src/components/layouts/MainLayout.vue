@@ -1,8 +1,10 @@
 <template>
-  <!-- Use vuetify to create a template with an application navigator, written the application name and place the content within -->
   <v-app>
     <v-app-bar app>
       <v-toolbar-title>Baruque</v-toolbar-title>
+      <!-- Adds the following options the the app bar: publishers, reports -->
+      <v-btn text to="/publishers">Publishers</v-btn>
+      <v-btn text to="/reports">Reports</v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
