@@ -1,4 +1,4 @@
-import Report from './Report.ts'
+import Report from './Report'
 
 export default class ServiceYear {
   private year: number

@@ -1,5 +1,5 @@
-import Report from "./Report.ts"
-import ServiceYear from "./ServiceYear.ts"
+import Report from "./Report"
+import ServiceYear from "./ServiceYear"
 
 export default class Publisher {
   public name: string
