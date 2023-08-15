@@ -29,4 +29,8 @@ export default class SpreadsheetService {
 
     return XLSX.utils.sheet_to_json(sheet)
   }
+
+  public getWorkbook(): XLSX.WorkBook {
+    return this.workbook
+  }
 }
